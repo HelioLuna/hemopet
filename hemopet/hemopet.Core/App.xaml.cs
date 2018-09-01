@@ -12,7 +12,7 @@ namespace hemopet.Core
 
             Barrel.ApplicationId = "com.hemopet.Core.local";
 
-            MainPage = new Views.MainPage();
+            MainPage = new Views.Login.LoginPage();
 		}
 
 		protected override void OnStart ()
