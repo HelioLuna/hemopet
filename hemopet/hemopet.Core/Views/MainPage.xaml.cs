@@ -1,26 +1,32 @@
-﻿using hemopet.Core.ViewModels;
+﻿using hemopet.Core.Controls;
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
+
 using Xamarin.Forms;
+using Xamarin.Forms.Xaml;
 
 namespace hemopet.Core.Views
 {
-    public partial class MainPage : ContentPage
+	[XamlCompilation(XamlCompilationOptions.Compile)]
+	public partial class MainPage : BottomBarPage
     {
-        private MainViewModel vm;
-        private MainViewModel ViewModel => vm ?? (vm = BindingContext as MainViewModel);
-
         public MainPage()
-        {
-            InitializeComponent();
+		{
+			InitializeComponent();
+            NavigationPage.SetHasNavigationBar(this, false);
 
-            BindingContext = vm = new MainViewModel(Navigation);
+            BarBackgroundColor = Color.White;
+
+            CustomNavigationPage DadosPage = new CustomNavigationPage(new MeusDados.DadosPage(Navigation), "Meus Dados");
+            CustomNavigationPage AnimaisPage = new CustomNavigationPage(new MeusDados.DadosPage(Navigation), "Meus Animais");
+            //CustomNavigationPage CronogramaPage = new CustomNavigationPage(new Cronograma.CronogramaPage(), "Cronograma");
+
+            Children.Insert(0, DadosPage);
+            Children.Insert(1, AnimaisPage);
+           // Children.Insert(2, CronogramaPage);
         }
-
-        protected override void OnAppearing()
-        {
-            base.OnAppearing();
-
-            if (vm.Examples.Count == 0)
-                vm.LoadExamplesCommand.Execute(null);
-        }
-    }
+	}
 }

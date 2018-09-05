@@ -13,6 +13,7 @@ using System.Net;
 using System.Net.Http;
 
 using Xamarin.Forms;
+using hemopet.Core.Services.Remote.Autenticacao;
 
 namespace hemopet.Core.ViewModels.Base
 {
@@ -43,6 +44,8 @@ namespace hemopet.Core.ViewModels.Base
             {
                 DependencyService.Register<IExampleService, FakeExampleService>();
                 DependencyService.Register<IExampleLocalService, FakeExampleLocalService>();
+
+                DependencyService.Register<IAutenticacaoService, FakeAutenticacaoService>(); 
             }
             else
             {
