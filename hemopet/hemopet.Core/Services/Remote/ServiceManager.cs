@@ -1,14 +1,15 @@
-﻿using hemopet.Core.Services.Remote.Example;
+﻿using hemopet.Core.Services.Remote.Autenticacao;
+using hemopet.Core.Services.Remote.Example;
 using Xamarin.Forms;
 
 namespace hemopet.Core.Services.Remote
 {
     public class ServiceManager : IServiceManager
     {
-        private IExampleService _exampleService;
+        private IAutenticacaoService _autenticacaoService;
 
-        public IExampleService ExampleService =>
-            _exampleService ?? (_exampleService = DependencyService.Get<IExampleService>());
+        public IAutenticacaoService AutenticacaoService =>
+            _autenticacaoService ?? (_autenticacaoService = DependencyService.Get<IAutenticacaoService>());
 
     }
 }

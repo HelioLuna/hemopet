@@ -10,6 +10,7 @@ namespace hemopet.Core.Helpers
         {
             public const string Message = "message";
             public const string Alert = "alert";
+            public const string Logout = "logout";
         }
     }
 }

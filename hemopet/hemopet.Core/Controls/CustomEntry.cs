@@ -22,6 +22,15 @@ namespace hemopet.Core.Controls
             set => SetValue(TintColorProperty, value);
         }
 
+        public static readonly BindableProperty BackgroundColorFilterProperty =
+            BindableProperty.Create(nameof(BackgroundColorFilter), typeof(Color), typeof(CustomEntry), Color.Black);
+
+        public Color BackgroundColorFilter
+        {
+            get => (Color)GetValue(BackgroundColorFilterProperty);
+            set => SetValue(BackgroundColorFilterProperty, value);
+        }
+
         public static readonly BindableProperty AccentColorProperty =
             BindableProperty.Create(nameof(AccentColor), typeof(Color), typeof(CustomEntry), Color.Gray);
 

@@ -53,6 +53,9 @@ namespace hemopet.Droid.Renderers
         {
             var drawable = Control.GetCompoundDrawablesRelative();
 
+            if (drawable[0] == null)
+                return;
+
             if (Control.IsFocused)
             {
                 if (view.AccentColor != Xamarin.Forms.Color.Gray)

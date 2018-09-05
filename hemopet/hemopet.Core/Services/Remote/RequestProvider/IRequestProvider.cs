@@ -1,4 +1,5 @@
-﻿using System.Threading.Tasks;
+﻿using hemopet.Core.Models;
+using System.Threading.Tasks;
 
 namespace hemopet.Core.Services.Remote.RequestProvider
 {
@@ -14,7 +15,7 @@ namespace hemopet.Core.Services.Remote.RequestProvider
 
         Task<TResult> DeleteAsync<TResult>(Endpoint endpoint, string token = "");
 
-        Task<TResult> AuthAsync<TResult>(Endpoint endpoint, TResult data);
+        Task<TResult> AuthAsync<TResult>(Endpoint endpoint, Credencial credencial);
 
     }
 }

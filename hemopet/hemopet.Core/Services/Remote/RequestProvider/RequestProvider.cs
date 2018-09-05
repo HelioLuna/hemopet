@@ -1,4 +1,5 @@
-﻿using Newtonsoft.Json;
+﻿using hemopet.Core.Models;
+using Newtonsoft.Json;
 using Newtonsoft.Json.Converters;
 using Newtonsoft.Json.Serialization;
 using System;
@@ -25,9 +26,20 @@ namespace hemopet.Core.Services.Remote.RequestProvider
             _serializerSettings.Converters.Add(new StringEnumConverter());
         }
 
-        public Task<TResult> AuthAsync<TResult>(Endpoint endpoint, TResult data)
+        public async Task<TResult> AuthAsync<TResult>(Endpoint endpoint, Credencial credencial)
         {
-            throw new NotImplementedException();
+            HttpClient client = CreateHttpClient();
+            Debug.WriteLine("Endpoint: " + endpoint.Value);
+            HttpContent content = new StringContent(SerializeObject(credencial, _serializerSettings));
+            content.Headers.ContentType = new MediaTypeHeaderValue("application/json");
+            HttpResponseMessage response = await client.PostAsync(endpoint.Value, content);
+
+            await HandleResponse(response, endpoint, HttpMethod.Post);
+            string serialized = await response.Content.ReadAsStringAsync();
+
+            Debug.WriteLine("RequestProvider + AuthAsync: " + serialized);
+
+            return await Task.Run(() => DeserializeObject<TResult>(serialized, _serializerSettings));
         }
 
         public async Task<TResult> GetAsync<TResult>(Endpoint endpoint, string token = "")
@@ -38,6 +50,8 @@ namespace hemopet.Core.Services.Remote.RequestProvider
 
             await HandleResponse(response, endpoint, HttpMethod.Get);
             string serialized = await response.Content.ReadAsStringAsync();
+
+            Debug.WriteLine("RequestProvider + GetAsync: " + serialized);
 
             return await Task.Run(() => DeserializeObject<TResult>(serialized, _serializerSettings));
         }
@@ -53,6 +67,8 @@ namespace hemopet.Core.Services.Remote.RequestProvider
             await HandleResponse(response, endpoint, HttpMethod.Post);
             string serialized = await response.Content.ReadAsStringAsync();
 
+            Debug.WriteLine("RequestProvider + PostAsync: " + serialized);
+
             return await Task.Run(() => DeserializeObject<TResult>(serialized, _serializerSettings));
         }
 
@@ -66,6 +82,8 @@ namespace hemopet.Core.Services.Remote.RequestProvider
 
             await HandleResponse(response, endpoint, HttpMethod.Put);
             string serialized = await response.Content.ReadAsStringAsync();
+
+            Debug.WriteLine("RequestProvider + PutAsync: " + serialized);
 
             return await Task.Run(() => DeserializeObject<TResult>(serialized, _serializerSettings));
         }
@@ -82,6 +100,8 @@ namespace hemopet.Core.Services.Remote.RequestProvider
             await HandleResponse(response, endpoint, new HttpMethod("PATCH"));
             string serialized = await response.Content.ReadAsStringAsync();
 
+            Debug.WriteLine("RequestProvider + PatchAsync: " + serialized);
+
             return await Task.Run(() => DeserializeObject<TResult>(serialized, _serializerSettings));
         }
 
@@ -94,11 +114,16 @@ namespace hemopet.Core.Services.Remote.RequestProvider
             await HandleResponse(response, endpoint, HttpMethod.Delete);
             string serialized = await response.Content.ReadAsStringAsync();
 
+            Debug.WriteLine("RequestProvider + DeleteAsync: " + serialized);
+
             return await Task.Run(() => DeserializeObject<TResult>(serialized, _serializerSettings));
         }
 
         private HttpClient CreateHttpClient(string token = "")
         {
+            System.Net.ServicePointManager.ServerCertificateValidationCallback =
+                new System.Net.Security.RemoteCertificateValidationCallback(delegate { return true; });
+
             var httpClient = new HttpClient();
             httpClient.DefaultRequestHeaders.Accept.Add(new MediaTypeWithQualityHeaderValue("application/json"));
             httpClient.Timeout = new TimeSpan(0, 0, 20);
