@@ -1,7 +1,6 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
+﻿using FormsToolkit;
+using hemopet.Core.Helpers;
+using hemopet.Core.ViewModels.MeusDados;
 using System.Threading.Tasks;
 
 using Xamarin.Forms;
@@ -12,9 +11,24 @@ namespace hemopet.Core.Views.MeusDados
 	[XamlCompilation(XamlCompilationOptions.Compile)]
 	public partial class DadosPage : ContentPage
 	{
-		public DadosPage(INavigation navigation)
+        private DadosViewModel vm;
+        private DadosViewModel ViewModel => vm ?? (vm = BindingContext as DadosViewModel);
+
+        public DadosPage(INavigation navigation)
 		{
-			InitializeComponent ();
-		}
-	}
+			InitializeComponent();
+            BindingContext = vm = new DadosViewModel(Navigation);
+            logout.Clicked += async delegate { await OnLogoutClicked(); };
+        }
+
+        private async Task OnLogoutClicked()
+        {
+            MessagingService.Current.SendMessage(Constants.MessageKeys.Logout);
+        }
+
+        protected override void OnAppearing()
+        {
+            base.OnAppearing();
+        }
+    }
 }
