@@ -1,4 +1,5 @@
 ﻿using hemopet.Core.Controls;
+using hemopet.Core.Models;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -21,11 +22,11 @@ namespace hemopet.Core.Views
             BarBackgroundColor = Color.White;
 
             CustomNavigationPage DadosPage = new CustomNavigationPage(new MeusDados.DadosPage(Navigation), "Meus Dados");
-            CustomNavigationPage AnimaisPage = new CustomNavigationPage(new MeusDados.DadosPage(Navigation), "Meus Animais");
+            //CustomNavigationPage AnimaisPage = new CustomNavigationPage(new MeusDados.DadosPage(Navigation), "Meus Animais");
             //CustomNavigationPage CronogramaPage = new CustomNavigationPage(new Cronograma.CronogramaPage(), "Cronograma");
 
             Children.Insert(0, DadosPage);
-            Children.Insert(1, AnimaisPage);
+            //Children.Insert(1, AnimaisPage);
            // Children.Insert(2, CronogramaPage);
         }
 	}
