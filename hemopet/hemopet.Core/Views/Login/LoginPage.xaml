@@ -1,10 +1,68 @@
 ﻿<?xml version="1.0" encoding="UTF-8"?>
 <ContentPage xmlns="http://xamarin.com/schemas/2014/forms" 
-             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"             
+             xmlns:controls="clr-namespace:hemopet.Core.Controls"
              x:Class="hemopet.Core.Views.Login.LoginPage">
   <ContentPage.Content>
-      <StackLayout>
-          <Label Text="Aqui é o Login" />
-      </StackLayout>
-  </ContentPage.Content>
+
+        <AbsoluteLayout>
+
+            <StackLayout
+                VerticalOptions="FillAndExpand"
+                HorizontalOptions="FillAndExpand"
+                AbsoluteLayout.LayoutBounds="1, 1, 1, 1"
+                AbsoluteLayout.LayoutFlags="All"
+                BackgroundColor="Transparent"
+                Padding="16, 16, 16, 16">
+
+                <Image
+                    HeightRequest="200"
+                    WidthRequest="200"
+                    BackgroundColor="Transparent"
+                    Source="logomarca.png"
+                    Margin="0, 24, 0, 64"/>
+
+                <Label
+                    Text="Login"
+                    TextColor="Orange"
+                    FontSize="17"
+                    HorizontalOptions="FillAndExpand"
+                    BackgroundColor="Transparent"
+                    Margin="4, 0, 0, -10"/>
+
+                <controls:CustomEntry 
+                    x:Name="login"
+                    HorizontalOptions="FillAndExpand"
+                    BackgroundColor="Transparent"
+                    Text="{Binding Credencial.Login.Value}"
+                    BackgroundColorFilter="#FAA61E"/>
+
+                <Label
+                    Text="Senha"    
+                    TextColor="Orange"
+                    FontSize="17"
+                    HorizontalOptions="FillAndExpand"
+                    BackgroundColor="Transparent"
+                    Margin="4, 0, 0, -10"/>
+
+                <controls:CustomEntry 
+                    x:Name="senha"
+                    HorizontalOptions="FillAndExpand"
+                    BackgroundColor="Transparent"
+                    Text="{Binding Credencial.Senha.Value}"
+                    IsPassword="True"
+                    BackgroundColorFilter="#FAA61E" />
+
+                <Button
+                    x:Name="entrar"
+                    Text="Entrar"
+                    TextColor="White"
+                    BackgroundColor="Orange"
+                    Margin="56, 40, 56, 0"/>
+
+            </StackLayout>
+
+        </AbsoluteLayout>
+
+    </ContentPage.Content>
 </ContentPage>
