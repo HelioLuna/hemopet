@@ -1,4 +1,5 @@
-﻿using hemopet.Core.ViewModels.Base;
+﻿using hemopet.Core.Helpers;
+using hemopet.Core.ViewModels.Base;
 using MvvmHelpers;
 using System;
 using System.Threading.Tasks;
@@ -16,7 +17,12 @@ namespace hemopet.Core.ViewModels.Animal
 
         #region Propertiers
 
-        public ObservableRangeCollection<Models.Animal> Animais { get; } = new ObservableRangeCollection<Models.Animal>();
+        public ObservableRangeCollection<Models.Animal> _animais;
+        public ObservableRangeCollection<Models.Animal> Animais
+        {
+            get => _animais;
+            set => SetProperty(ref _animais, value);
+        }
 
         public bool _isListaVazia = false;
         public bool IsListaVazia
@@ -63,9 +69,8 @@ namespace hemopet.Core.ViewModels.Animal
             {
                 IsBusy = true;
 
-                //ObservableRangeCollection<Animal> cronograma = await ServiceManager.AnimalService.Get(Skip, Limit, Settings.Usuario.Token);
-                //SetEtapaSituacaoColor(cronograma);
-                //Animais.ReplaceRange(cronograma);
+                Animais = await ServiceManager.AnimalService.Get(Skip, Limit, Settings.Usuario.Token);
+                HandlerAnimal(Animais);
 
                 if (Animais.Count <= 0)
                     IsListaVazia = true;
@@ -83,6 +88,67 @@ namespace hemopet.Core.ViewModels.Animal
 
             return;
         }
+        private void HandlerAnimal(ObservableRangeCollection<Models.Animal> animais)
+        {
+            if(animais.Count > 0) { 
+                foreach (Models.Animal animal in animais)
+                {
+                    animal.HandleInfo();                
+                }
+            }
+        }
+
+        private ICommand _removeAnimalCommand;
+        public ICommand RemoveAnimalCommand =>
+            _removeAnimalCommand ?? (_removeAnimalCommand = new Command<Models.Animal>(async (animal) => await ExecuteRemoveAnimalAsync(animal)));
+
+        private async Task ExecuteRemoveAnimalAsync(Models.Animal animal)
+        {
+            if (IsBusy)
+                return;
+
+            //TEST DEVICE
+            //if (!CrossConnectivity.Current.IsConnected)
+            //{
+            //ShowAlertMessage(TITLE_ERROR_CONNECTION, MESSAGE_ERROR_CONNECTION);
+            //return;
+            //}
+
+            try
+            {
+                IsBusy = true;
+
+                Models.Animal _animal = await ServiceManager.AnimalService.Remove(animal, Settings.Usuario.Token);
+
+                if (Animais.Count <= 0)
+                    IsListaVazia = true;
+                else
+                    IsListaVazia = false;
+
+                if (_animal == null)
+                    await ExecuteForceRefreshCommandAsync();
+            }
+            catch (Exception exception)
+            {
+                CommonErrorHandler(exception);
+            }
+            finally
+            {
+                IsBusy = false;
+            }
+
+            return;
+        }
+
+        ICommand forceRefreshCommand;
+        public ICommand ForceRefreshCommand =>
+            forceRefreshCommand ?? (forceRefreshCommand = new Command(async () => await ExecuteForceRefreshCommandAsync()));
+
+        async Task ExecuteForceRefreshCommandAsync()
+        {
+            await ExecuteLoadAnimaisAsync();
+        }
+
         #endregion
     }
 }

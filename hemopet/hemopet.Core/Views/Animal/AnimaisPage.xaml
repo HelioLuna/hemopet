@@ -1,43 +1,42 @@
 ﻿<?xml version="1.0" encoding="utf-8" ?>
 <ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
-             x:Class="hemopet.Core.Views.Animal.AnimaisPage">
+             x:Class="hemopet.Core.Views.Animal.AnimaisPage"
+             Title="Animais"
+             Icon="baseline_list_white.png">
     <ContentPage.Content>
         <AbsoluteLayout
              BackgroundColor="#F4F4F4"
              VerticalOptions="FillAndExpand">
             <ListView
-                 ItemsSource="{Binding Animais}"
-                 IsVisible="{Binding IsNotBusy}"
-                 AbsoluteLayout.LayoutFlags="All"
-                 AbsoluteLayout.LayoutBounds="0,0,1,1"
-                 RowHeight="95"
-                 BackgroundColor="#F4F4F4">
+                ItemsSource="{Binding Animais}"
+                IsVisible="{Binding IsNotBusy}"
+                IsPullToRefreshEnabled="{Binding IsNotBusy}"
+                RefreshCommand="{Binding ForceRefreshCommand}"
+                IsRefreshing="{Binding IsBusy, Mode=OneWay}"
+                AbsoluteLayout.LayoutFlags="All"
+                AbsoluteLayout.LayoutBounds="0,0,1,1"
+                RowHeight="95"
+                BackgroundColor="#F4F4F4">
                 <ListView.ItemTemplate>
                     <DataTemplate>
                         <ViewCell>
+                            <ViewCell.ContextActions>
+                                <MenuItem Clicked="OnEdit" Text="Editar" />
+                                <MenuItem Clicked="OnDelete" Text="Deletar" IsDestructive="True" />
+                            </ViewCell.ContextActions>
                             <ViewCell.View>
                                 <StackLayout
                                     Orientation="Horizontal">
-                                    <StackLayout
-                                        WidthRequest="30"
-                                        HeightRequest="30"                                
+                                    <StackLayout                                
                                         VerticalOptions="Center"
                                         HorizontalOptions="Center"
                                         Margin="20,0,0,0">
-                                        <Frame
-                                            WidthRequest="30"
-                                            HeightRequest="30" 
-                                            CornerRadius="15"
-                                            IsClippedToBounds="True"
-                                            HasShadow="False"
-                                            BackgroundColor="Red"
-                                            Margin="0"
-                                            Padding="0"
-                                            MinimumHeightRequest="30"
-                                            MinimumWidthRequest="30"
-                                            VerticalOptions="Center"
-                                            HorizontalOptions="Center"/>
+                                        
+                                        <Image
+                                            HeightRequest="45"
+                                            WidthRequest="45"
+                                            Source="{Binding ImagemAnimal}"/>
 
                                     </StackLayout>
 
@@ -66,12 +65,6 @@
                                                 Orientation="Horizontal"
                                                 HeightRequest="22"
                                                 HorizontalOptions="FillAndExpand">
-                                                <Label
-                                                    Text="Tipo:"
-                                                    FontSize="14"
-                                                    TextColor="#61000000"                                                        
-                                                    VerticalOptions="Start"
-                                                    HorizontalOptions="Start"/>
 
                                                 <Label
                                                     Text="{Binding Tipo}" 
@@ -94,7 +87,7 @@
                                                     HorizontalOptions="Start"/>
 
                                                 <Label
-                                                    Text="{Binding Idade}" 
+                                                    Text="{Binding Idade, StringFormat='{0} anos'}" 
                                                     FontSize="14"
                                                     TextColor="#61000000"
                                                     VerticalOptions="Start"

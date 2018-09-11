@@ -14,6 +14,7 @@ using System.Net.Http;
 
 using Xamarin.Forms;
 using hemopet.Core.Services.Remote.Autenticacao;
+using hemopet.Core.Services.Remote.Animal;
 
 namespace hemopet.Core.ViewModels.Base
 {
@@ -42,10 +43,8 @@ namespace hemopet.Core.ViewModels.Base
 
             if (isToMock)
             {
-                DependencyService.Register<IExampleService, FakeExampleService>();
-                DependencyService.Register<IExampleLocalService, FakeExampleLocalService>();
-
-                DependencyService.Register<IAutenticacaoService, FakeAutenticacaoService>(); 
+                DependencyService.Register<IAutenticacaoService, FakeAutenticacaoService>();
+                DependencyService.Register<IAnimalService, FakeAnimalService>();
             }
             else
             {
