@@ -1,0 +1,165 @@
+﻿<?xml version="1.0" encoding="UTF-8"?>
+<ContentPage xmlns="http://xamarin.com/schemas/2014/forms" 
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             x:Class="hemopet.Core.Views.Agendamento.AgendamentosPage"
+             Title="Agendamentos"
+             Icon="baseline_calendar_today_white.png">
+
+    <ContentPage.Content>
+        <StackLayout
+            Orientation="Vertical"            
+            BackgroundColor="#F4F4F4">
+            <AbsoluteLayout
+                BackgroundColor="#F4F4F4"
+                VerticalOptions="FillAndExpand">
+                <ListView
+                    ItemsSource="{Binding Agendamentos}"
+                    IsVisible="{Binding IsNotBusy}"
+                    IsPullToRefreshEnabled="{Binding IsNotBusy}"
+                    RefreshCommand="{Binding ForceRefreshCommand}"
+                    IsRefreshing="{Binding IsBusy, Mode=OneWay}"
+                    AbsoluteLayout.LayoutFlags="All"
+                    AbsoluteLayout.LayoutBounds="0,0,1,1"
+                    RowHeight="95"
+                    BackgroundColor="#F4F4F4">
+                    <ListView.ItemTemplate>
+                        <DataTemplate>
+                            <ViewCell>
+                                <ViewCell.ContextActions>
+                                    <MenuItem Clicked="OnDelete" Text="Deletar" IsDestructive="True" />
+                                </ViewCell.ContextActions>
+                                <ViewCell.View>
+                                    <StackLayout
+                                    Orientation="Horizontal">
+                                        <StackLayout                                
+                                        VerticalOptions="Center"
+                                        HorizontalOptions="Center"
+                                        Margin="20,0,0,0">
+
+                                            <Image
+                                            HeightRequest="45"
+                                            WidthRequest="45"
+                                            Source="calendar.png"/>
+
+                                        </StackLayout>
+
+                                        <StackLayout
+                                            HorizontalOptions="FillAndExpand"
+                                            Orientation="Horizontal"
+                                            Padding="10,10,10,5">
+                                            <StackLayout
+                                                HorizontalOptions="FillAndExpand"
+                                                Orientation="Vertical"                                            
+                                                Spacing="2">
+
+                                                <StackLayout
+                                                    Orientation="Horizontal"
+                                                    HeightRequest="22"
+                                                    HorizontalOptions="FillAndExpand">
+
+
+                                                    <Label
+                                                        Text="Data da Doação:"
+                                                        FontSize="16" 
+                                                        TextColor="#000000"                                                       
+                                                        VerticalOptions="Start"
+                                                        HorizontalOptions="Start"/>
+
+                                                    <Label
+                                                        Text="{Binding DataDoacao, StringFormat='{0:dd/MM/yyyy}'}" 
+                                                        FontSize="16" 
+                                                        TextColor="#000000"
+                                                        VerticalOptions="Start"
+                                                        HorizontalOptions="Start" />
+
+                                                </StackLayout>                                            
+
+                                                <StackLayout
+                                                Orientation="Horizontal"
+                                                HeightRequest="22"
+                                                HorizontalOptions="FillAndExpand">
+
+                                                    <Label
+                                                        Text="{Binding Animal.Nome, StringFormat='{0} - '}" 
+                                                        FontSize="14"
+                                                        TextColor="#61000000"
+                                                        HorizontalOptions="Fill" />
+                                                    <Label
+                                                        Text="{Binding Animal.Tipo}" 
+                                                        FontSize="14"
+                                                        TextColor="#61000000"
+                                                        HorizontalOptions="Fill" />                                            
+
+                                                </StackLayout>
+
+                                                <StackLayout
+                                                    Orientation="Horizontal"
+                                                    HeightRequest="22"
+                                                    HorizontalOptions="FillAndExpand">
+                                               
+                                                    <Label
+                                                        Text="Local:"
+                                                        FontSize="14"
+                                                        TextColor="#000000"                                                       
+                                                        VerticalOptions="Start"
+                                                        HorizontalOptions="Start"/>
+
+                                                    <Label
+                                                        Text="{Binding Clinica.Nome}" 
+                                                        FontSize="14"
+                                                        TextColor="#000000"                                                       
+                                                        VerticalOptions="Start"
+                                                        HorizontalOptions="Start" />
+                                                
+                                                </StackLayout>
+                                            </StackLayout>
+                                        </StackLayout>
+                                    </StackLayout>
+                                </ViewCell.View>
+                            </ViewCell>
+                        </DataTemplate>
+                    </ListView.ItemTemplate>
+                </ListView>            
+
+                <StackLayout
+                    IsVisible="{Binding IsBusy}"
+                    AbsoluteLayout.LayoutFlags="PositionProportional"
+                    AbsoluteLayout.LayoutBounds="0.5,0.5,-1,-1"
+                    BackgroundColor="#F4F4F4">
+
+                    <ActivityIndicator
+                        IsRunning="{Binding IsBusy}" />
+
+                    <Label
+                        Text="Carregando Agendamentos.." />
+
+                </StackLayout>
+
+                <StackLayout
+                    IsVisible="{Binding IsListaVazia}" 
+                    AbsoluteLayout.LayoutFlags="PositionProportional"
+                    AbsoluteLayout.LayoutBounds="0.5,0.5,-1,-1"
+                    BackgroundColor="#F4F4F4">
+
+                    <Label
+                        IsVisible="{Binding IsNotBusy}" 
+                        Text="Você não tem nenhuma Doação agendada." />
+                    <Label
+                        IsVisible="{Binding IsNotBusy}" 
+                        Text="Vamos Doar? :)" />
+                </StackLayout>           
+            </AbsoluteLayout>
+
+            <Button                
+                x:Name="doar"
+                HorizontalOptions="FillAndExpand"                    
+                IsEnabled="{Binding IsNotBusy}"
+                Text="Doar"
+                TextColor="White"
+                BackgroundColor="Orange"
+                BorderRadius="8"
+                Margin="20, 0, 20, 0"/>
+            
+        </StackLayout>
+    </ContentPage.Content>
+</ContentPage>

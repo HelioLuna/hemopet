@@ -16,8 +16,10 @@ namespace hemopet.Core.Models
         public string Nome { get; set; }
         [JsonProperty("dat_nascimento")]
         public DateTime DataNascimento { get; set; }
-        [JsonProperty("tipo")]
         public TipoAnimalEnum Tipo { get; set; }
+        [JsonProperty("tipo_sanguineo")]
+        public string TipoSanguineo { get; set; }
+
         [JsonIgnore]
         public int Idade { get; set; }
         [JsonIgnore]

@@ -5,7 +5,6 @@ using hemopet.Core.Services.Local;
 using hemopet.Core.Services.Local.Example;
 using hemopet.Core.Services.Local.LocalRequestProvider;
 using hemopet.Core.Services.Remote;
-using hemopet.Core.Services.Remote.Example;
 using hemopet.Core.Services.Remote.RequestProvider;
 using System;
 
@@ -15,6 +14,9 @@ using System.Net.Http;
 using Xamarin.Forms;
 using hemopet.Core.Services.Remote.Autenticacao;
 using hemopet.Core.Services.Remote.Animal;
+using hemopet.Core.Services.Remote.Agendamento;
+using hemopet.Core.Services.Remote.Clinica;
+using hemopet.Core.Services.Local.LocalService.Agendamento;
 
 namespace hemopet.Core.ViewModels.Base
 {
@@ -45,10 +47,14 @@ namespace hemopet.Core.ViewModels.Base
             {
                 DependencyService.Register<IAutenticacaoService, FakeAutenticacaoService>();
                 DependencyService.Register<IAnimalService, FakeAnimalService>();
+                DependencyService.Register<IAgendamentoService, FakeAgendamentoService>();
+                DependencyService.Register<IClinicaService, FakeClinicaService>();
+
+                DependencyService.Register<IAgendamentoLocalService, FakeAgendamentoLocalService>();
+
             }
             else
             {
-                DependencyService.Register<IExampleService, ExampleService>();
                 DependencyService.Register<IExampleLocalService, ExampleLocalService>();
             }
 

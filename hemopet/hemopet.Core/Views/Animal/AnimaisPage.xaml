@@ -4,6 +4,11 @@
              x:Class="hemopet.Core.Views.Animal.AnimaisPage"
              Title="Animais"
              Icon="baseline_list_white.png">
+
+    <ContentPage.ToolbarItems>
+        <ToolbarItem x:Name="addAnimal" />
+    </ContentPage.ToolbarItems>
+
     <ContentPage.Content>
         <AbsoluteLayout
              BackgroundColor="#F4F4F4"

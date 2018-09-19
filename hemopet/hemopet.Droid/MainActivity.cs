@@ -7,7 +7,7 @@ using FormsToolkit.Droid;
 
 namespace hemopet.Droid
 {
-    [Activity(Label = "ext_safeprojectname$",
+    [Activity(Label = "HemoPet",
         Icon = "@drawable/icon",
         Theme = "@style/MainTheme",
         MainLauncher = true,

@@ -1,6 +1,5 @@
 ﻿using MonkeyCache.FileStore;
 
-using hemopet.Core.Services.Remote.Example;
 using hemopet.Core.Services.Remote.RequestProvider;
 
 using System;

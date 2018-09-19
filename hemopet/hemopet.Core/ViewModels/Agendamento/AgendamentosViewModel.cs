@@ -6,13 +6,12 @@ using System.Threading.Tasks;
 using System.Windows.Input;
 using Xamarin.Forms;
 
-namespace hemopet.Core.ViewModels.Animal
+namespace hemopet.Core.ViewModels.Agendamento
 {
-    public class AnimaisViewModel : ViewModelBase
+    public class AgendamentosViewModel : ViewModelBase
     {
-        public AnimaisViewModel(INavigation navigation) : base(navigation)
+        public AgendamentosViewModel(INavigation navigation) : base(navigation)
         {
-
         }
 
         #region Propertiers
@@ -24,11 +23,11 @@ namespace hemopet.Core.ViewModels.Animal
             set => SetProperty(ref _isThereModal, value);
         }
 
-        public ObservableRangeCollection<Models.Animal> _animais;
-        public ObservableRangeCollection<Models.Animal> Animais
+        public ObservableRangeCollection<Models.Agendamento> _agendamentos = new ObservableRangeCollection<Models.Agendamento>();
+        public ObservableRangeCollection<Models.Agendamento> Agendamentos
         {
-            get => _animais;
-            set => SetProperty(ref _animais, value);
+            get => _agendamentos;
+            set => SetProperty(ref _agendamentos, value);
         }
 
         public bool _isListaVazia = false;
@@ -54,13 +53,13 @@ namespace hemopet.Core.ViewModels.Animal
 
         #endregion
 
-        #region Commands
+        #region Propertiers
 
-        private ICommand _loadAnimaisCommand;
-        public ICommand LoadAnimaisCommand =>
-            _loadAnimaisCommand ?? (_loadAnimaisCommand = new Command(async () => await ExecuteLoadAnimaisAsync()));
+        private ICommand _loadAgendamentosCommand;
+        public ICommand LoadAgendamentosCommand =>
+            _loadAgendamentosCommand ?? (_loadAgendamentosCommand = new Command(async () => await ExecuteLoadAgendamentosAsync()));
 
-        private async Task ExecuteLoadAnimaisAsync()
+        private async Task ExecuteLoadAgendamentosAsync()
         {
             if (IsBusy)
                 return;
@@ -76,10 +75,11 @@ namespace hemopet.Core.ViewModels.Animal
             {
                 IsBusy = true;
 
-                Animais = await ServiceManager.AnimalService.Get(Skip, Limit, Settings.Usuario.Token);
-                HandlerAnimal(Animais);
+                int[] localAgendamentosId = await LocalServiceManager.AgendamentoLocalService.ReadAllIds() ?? new int[0];
 
-                if (Animais.Count <= 0)
+                Agendamentos = await ServiceManager.AgendamentoService.Get(localAgendamentosId, Settings.Usuario.Token);
+
+                if (Agendamentos.Count <= 0)
                     IsListaVazia = true;
                 else
                     IsListaVazia = false;
@@ -95,21 +95,11 @@ namespace hemopet.Core.ViewModels.Animal
 
             return;
         }
-        private void HandlerAnimal(ObservableRangeCollection<Models.Animal> animais)
-        {
-            if(animais.Count > 0) { 
-                foreach (Models.Animal animal in animais)
-                {
-                    animal.HandleInfo();                
-                }
-            }
-        }
+        private ICommand _removeAgendamentoCommand;
+        public ICommand RemoveAgendamentoCommand =>
+            _removeAgendamentoCommand ?? (_removeAgendamentoCommand = new Command<Models.Agendamento>(async (agendamento) => await ExecuteRemoveAgendamentoAsync(agendamento)));
 
-        private ICommand _removeAnimalCommand;
-        public ICommand RemoveAnimalCommand =>
-            _removeAnimalCommand ?? (_removeAnimalCommand = new Command<Models.Animal>(async (animal) => await ExecuteRemoveAnimalAsync(animal)));
-
-        private async Task ExecuteRemoveAnimalAsync(Models.Animal animal)
+        private async Task ExecuteRemoveAgendamentoAsync(Models.Agendamento agendamento)
         {
             if (IsBusy)
                 return;
@@ -125,14 +115,14 @@ namespace hemopet.Core.ViewModels.Animal
             {
                 IsBusy = true;
 
-                Models.Animal _animal = await ServiceManager.AnimalService.Remove(animal, Settings.Usuario.Token);
+                Models.Agendamento _agendamento = await ServiceManager.AgendamentoService.Remove(agendamento, Settings.Usuario.Token);
 
-                if (Animais.Count <= 0)
+                if (Agendamentos.Count <= 0)
                     IsListaVazia = true;
                 else
                     IsListaVazia = false;
 
-                if (_animal == null)
+                if (_agendamento == null)
                     await ExecuteForceRefreshCommandAsync();
             }
             catch (Exception exception)
@@ -153,7 +143,7 @@ namespace hemopet.Core.ViewModels.Animal
 
         async Task ExecuteForceRefreshCommandAsync()
         {
-            await ExecuteLoadAnimaisAsync();
+            await ExecuteLoadAgendamentosAsync();
         }
 
         #endregion

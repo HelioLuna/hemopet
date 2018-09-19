@@ -18,14 +18,14 @@ namespace hemopet.Core.Services.Remote.Animal
             },
             new Models.Animal
             {
-                Id = 1,
+                Id = 2,
                 Nome = "Floquinho",
                 DataNascimento = new DateTime(2015,04,01),
                 Tipo = TipoAnimalEnum.Gato
             },
             new Models.Animal
             {
-                Id = 1,
+                Id = 3,
                 Nome = "Bolota",
                 DataNascimento = new DateTime(2013,04,01),
                 Tipo = TipoAnimalEnum.Cachorro

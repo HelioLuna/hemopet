@@ -1,9 +1,7 @@
-﻿using hemopet.Core.Services.Remote.Animal;
+﻿using hemopet.Core.Services.Remote.Agendamento;
+using hemopet.Core.Services.Remote.Animal;
 using hemopet.Core.Services.Remote.Autenticacao;
-using hemopet.Core.Services.Remote.Example;
-using System;
-using System.Collections.Generic;
-using System.Text;
+using hemopet.Core.Services.Remote.Clinica;
 
 namespace hemopet.Core.Services.Remote
 {
@@ -11,5 +9,7 @@ namespace hemopet.Core.Services.Remote
     {
         IAutenticacaoService AutenticacaoService { get; }
         IAnimalService AnimalService { get; }
+        IAgendamentoService AgendamentoService { get; }
+        IClinicaService ClinicaService { get; }
     }
 }
