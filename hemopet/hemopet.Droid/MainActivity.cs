@@ -7,10 +7,8 @@ using FormsToolkit.Droid;
 
 namespace hemopet.Droid
 {
-    [Activity(Label = "HemoPet",
-        Icon = "@drawable/icon",
-        Theme = "@style/MainTheme",
-        MainLauncher = true,
+    [Activity(Theme = "@style/MainTheme",
+        MainLauncher = false,
         ConfigurationChanges = ConfigChanges.ScreenSize | ConfigChanges.Orientation)]
     public class MainActivity : global::Xamarin.Forms.Platform.Android.FormsAppCompatActivity
     {
