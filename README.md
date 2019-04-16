@@ -1,5 +1,4 @@
 # Hemopet Project Prototype
-============================
 
 This is a prototype project application development of animal blood donation in a xamarin.forms application.
 
@@ -18,5 +17,5 @@ You can then load any of the application projects. For each project, again right
 
 ## Images of the prototype
 
-![](https://gitlab.com/HelioLuna/hemopet/blob/master/hemopet/hemopet.Droid/Resources/drawable/hemopet.png)
+![](https://gitlab.com/HelioLuna/hemopet/raw/master/hemopet/hemopet.Droid/Resources/drawable/hemopet.png)
 
