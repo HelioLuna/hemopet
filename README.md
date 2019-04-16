@@ -17,5 +17,5 @@ You can then load any of the application projects. For each project, again right
 
 ## Images of the prototype
 
-![](https://gitlab.com/HelioLuna/hemopet/raw/master/hemopet/hemopet.Droid/Resources/drawable/hemopet.png)
+![](https://raw.githubusercontent.com/HelioLuna/hemopet/master/hemopet/hemopet.Droid/Resources/drawable/hemopet.png)
 
